@@ -79,6 +79,7 @@ var textarea_element_container_1 = require("../../dom/elements/textarea-element-
 var select_element_container_1 = require("../../dom/elements/select-element-container");
 var iframe_element_container_1 = require("../../dom/replaced-elements/iframe-element-container");
 var renderer_1 = require("../renderer");
+var object_fit_1 = require("../object-fit");
 var MASK_OFFSET = 10000;
 var CanvasRenderer = /** @class */ (function (_super) {
     __extends(CanvasRenderer, _super);
@@ -273,9 +274,10 @@ var CanvasRenderer = /** @class */ (function (_super) {
             var box = box_sizing_1.contentBox(container);
             var path = bound_curves_1.calculatePaddingBoxPath(curves);
             this.path(path);
+            var _a = object_fit_1.calculateObjectFitBounds(container.styles.objectFit, container.intrinsicWidth, container.intrinsicHeight, box.width, box.height), src = _a.src, dest = _a.dest;
             this.ctx.save();
             this.ctx.clip();
-            this.ctx.drawImage(image, 0, 0, container.intrinsicWidth, container.intrinsicHeight, box.left, box.top, box.width, box.height);
+            this.ctx.drawImage(image, src.left, src.top, src.width, src.height, box.left + dest.left, box.top + dest.top, dest.width, dest.height);
             this.ctx.restore();
         }
     };
